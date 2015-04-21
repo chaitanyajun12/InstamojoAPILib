@@ -1,4 +1,4 @@
-package com.demo.instamojo.Utils;
+package com.demo.instamojo.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -13,7 +13,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
-import com.demo.instamojo.Utils.Utilities;
 import com.demo.instamojo.apis.response.LinksResponse;
 import com.demo.instamojo.apis.response.ListAuthTokensResponse;
 import com.demo.instamojo.apis.response.PaymentDetailResponse;
@@ -24,6 +23,7 @@ import com.demo.instamojo.apis.response.UploadURLResponse;
 import com.demo.instamojo.http.HttpFactory;
 import com.demo.instamojo.http.HttpResponseCallback;
 import com.demo.instamojo.model.AuthToken;
+import com.demo.instamojo.utils.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
