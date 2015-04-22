@@ -1,4 +1,4 @@
-# Instamojo Android API library
+# Instamojo API Android library
 
 This Android library provides seamless integration of Instamojo APIs into your Android application.
 
