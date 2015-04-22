@@ -127,6 +127,9 @@ public class HttpFactory {
 	
 	private static String getResponse(InputStream in) throws IOException {
 
+		if(in == null)
+			return null;
+		
 		StringBuffer response = new StringBuffer();
 		String line;
 	

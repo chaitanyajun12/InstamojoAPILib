@@ -11,8 +11,8 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
+import com.demo.instamojo.apis.response.CreateLinkResponse;
 import com.demo.instamojo.apis.response.LinksResponse;
 import com.demo.instamojo.apis.response.ListAuthTokensResponse;
 import com.demo.instamojo.apis.response.PaymentDetailResponse;
@@ -23,6 +23,7 @@ import com.demo.instamojo.apis.response.UploadURLResponse;
 import com.demo.instamojo.http.HttpFactory;
 import com.demo.instamojo.http.HttpResponseCallback;
 import com.demo.instamojo.model.AuthToken;
+import com.demo.instamojo.model.CreateLink;
 import com.demo.instamojo.utils.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -48,6 +49,18 @@ public class Instamojo {
 		public AuthToken authToken;
 		public String token;
 		public boolean success;
+	}
+	
+	private List<NameValuePair> getParams(CreateLink link) {
+		
+		List<NameValuePair> params = new ArrayList<>();
+		
+		params.add(new BasicNameValuePair("title", link.title));
+		params.add(new BasicNameValuePair("description", link.description));
+		params.add(new BasicNameValuePair("currency", link.currency));
+		params.add(new BasicNameValuePair("base_price", Integer.toString(link.basePrice)));
+		
+		return params;
 	}
 	
 	public Instamojo(Context context) {
@@ -98,8 +111,12 @@ public class Instamojo {
 		thread.start();
 	}
 	
-	public void createURL() {
-		// TODO
+	public void createURL(CreateLink link, HttpResponseCallback callback) {
+
+		List<NameValuePair> params = getParams(link);
+		
+		BackgroundThread thread = new BackgroundThread(CREATE_URL, params, callback);
+		thread.start();
 	}
 	
 	public void getURLDetail(String identifier, HttpResponseCallback callback) {
@@ -170,6 +187,7 @@ public class Instamojo {
 				}
 					
 				case LIST_AUTH_TOKENS : {
+					
 					String response = HttpFactory.getRequest(IMConstants.LIST_AUTH_TOKENS_URL, Utilities.getAuthToken(mContext));
 					resp = gson.fromJson(response, ListAuthTokensResponse.class);
 					break;
@@ -178,7 +196,6 @@ public class Instamojo {
 				case DELETE_AUTH_TOKEN : {
 					
 					URL url = new URL(new URL(IMConstants.DEL_AUTH_TOKEN_URL), params.get(0).getValue());
-					Log.d("KRISHNA", "url : " + url);
 					int response = HttpFactory.deleteRequest(url.toString(), Utilities.getAuthToken(mContext));
 					
 					resp = new Response();
@@ -190,13 +207,14 @@ public class Instamojo {
 				case LIST_URLS : {
 
 					String response = HttpFactory.getRequest(IMConstants.LIST_LINKS_URL, Utilities.getAuthToken(mContext));
-					Log.d("KRISHNA", "response : " + response);
 					resp = gson.fromJson(response, LinksResponse.class);
 					break;
 				}
 				
 				case CREATE_URL : {
 					
+					String response = HttpFactory.postRequest(IMConstants.CREATE_LINK_URL, params, Utilities.getAuthToken(mContext));
+					resp = gson.fromJson(response, CreateLinkResponse.class);
 					break;
 				}
 				

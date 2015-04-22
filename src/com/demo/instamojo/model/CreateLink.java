@@ -3,7 +3,14 @@ package com.demo.instamojo.model;
 import com.google.gson.annotations.SerializedName;
 
 public class CreateLink {
-
+	
+	public CreateLink(String title, String description, String currency, int basePrice) {
+		this.title = title;
+		this.description = description;
+		this.currency = currency;
+		this.basePrice = basePrice;
+	}
+	
 	public String title;
 	public String description;
 	public String currency;
